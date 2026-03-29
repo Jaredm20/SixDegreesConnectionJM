@@ -38,8 +38,25 @@ def bfs(graph, start, target):
     # - Track parent pointers to reconstruct path
     # - Return path from start to target as a list
     
-    pass
+    if start == target:
+        return [start]
 
+    visited = {start}
+    
+    queue = deque([(start, [start])])
+    
+    while queue:
+        current, path = queue.popleft()
+        
+        for neighbor in graph.get(current, []):
+            if neighbor not in visited:
+                if neighbor == target:
+                    return path + [neighbor]
+                
+                visited.add(neighbor)
+                queue.append((neighbor, path + [neighbor]))
+    
+    return []
 
 # ============================================================================
 # PART 2: DEPTH-FIRST SEARCH (DFS)
@@ -66,7 +83,21 @@ def dfs(graph, start):
     # - Track visited nodes to avoid infinite loops
     # - Return a set of all reachable user IDs
     
-    pass
+    visited = set()
+    stack = [start]
+
+    while stack:
+        node = stack.pop()
+
+        if node not in visited:
+            visited.add(node)
+
+            # Add neighbors to stack for deep exploration
+            for neighbor in graph.get(node, []):
+                if neighbor not in visited:
+                    stack.append(neighbor)
+
+    return visited
 
 
 # ============================================================================
